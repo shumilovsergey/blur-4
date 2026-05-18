@@ -137,16 +137,21 @@ func nextBgPath() string {
 	return imgs[rand.Intn(len(imgs))]
 }
 
+var cachedBgPath string
+
 func handleRandomCover(w http.ResponseWriter, r *http.Request) {
-	path := nextBgPath()
-	if path == "" {
-		path = nextCoverPath() // fallback to media covers
+	if cachedBgPath == "" {
+		path := nextBgPath()
+		if path == "" {
+			path = nextCoverPath()
+		}
+		cachedBgPath = path
 	}
-	if path == "" {
+	if cachedBgPath == "" {
 		http.NotFound(w, r)
 		return
 	}
-	http.ServeFile(w, r, path)
+	http.ServeFile(w, r, cachedBgPath)
 }
 
 func handleTree(w http.ResponseWriter, r *http.Request) {
