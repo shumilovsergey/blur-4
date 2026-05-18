@@ -3,3 +3,4 @@ CLAUDE.md
 *.db
 .db
 blur.db
+.DS_Store

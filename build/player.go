@@ -115,8 +115,33 @@ func nextCoverPath() string {
 	return path
 }
 
+func nextBgPath() string {
+	f, err := os.Open(bgDir)
+	if err != nil {
+		return ""
+	}
+	defer f.Close()
+	infos, _ := f.Readdir(-1)
+	var imgs []string
+	for _, info := range infos {
+		if info.IsDir() || strings.HasPrefix(info.Name(), ".") {
+			continue
+		}
+		if imageExts[strings.ToLower(filepath.Ext(info.Name()))] {
+			imgs = append(imgs, filepath.Join(bgDir, info.Name()))
+		}
+	}
+	if len(imgs) == 0 {
+		return ""
+	}
+	return imgs[rand.Intn(len(imgs))]
+}
+
 func handleRandomCover(w http.ResponseWriter, r *http.Request) {
-	path := nextCoverPath()
+	path := nextBgPath()
+	if path == "" {
+		path = nextCoverPath() // fallback to media covers
+	}
 	if path == "" {
 		http.NotFound(w, r)
 		return

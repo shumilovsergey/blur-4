@@ -24,6 +24,7 @@ var (
 	appURL       string
 	appToken     string
 	mediaDir     string
+	bgDir        string
 	tmpl         *template.Template
 	httpClient   = &http.Client{}
 )
@@ -92,6 +93,10 @@ func main() {
 	mediaDir = os.Getenv("MEDIA_DIR")
 	if mediaDir == "" {
 		mediaDir = "./media"
+	}
+	bgDir = os.Getenv("BG_DIR")
+	if bgDir == "" {
+		bgDir = "./backgrounds"
 	}
 
 	secretKey := os.Getenv("SECRET_KEY")
