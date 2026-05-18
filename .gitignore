@@ -1,2 +1,5 @@
 .env
 CLAUDE.md
+*.db
+.db
+blur.db

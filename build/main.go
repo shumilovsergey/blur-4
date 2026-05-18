@@ -112,6 +112,8 @@ func main() {
 	mux.HandleFunc("GET /logout", handleLogout)
 	mux.HandleFunc("GET /api/random-cover", handleRandomCover)
 	mux.HandleFunc("GET /api/tree", requireAuthHandler(handleTree))
+	mux.HandleFunc("GET /api/progress", requireAuthHandler(handleGetProgress))
+	mux.HandleFunc("POST /api/progress", requireAuthHandler(handleSaveProgress))
 	mux.Handle("GET /media/", requireAuthHandler(mediaHandler()))
 	mux.Handle("GET /favicon.svg", fileServer)
 	mux.Handle("GET /shell.css", fileServer)
