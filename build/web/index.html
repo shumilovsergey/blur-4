@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>BLUR</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta property="og:type"  content="website" />
+  <meta property="og:title" content="BLUR" />
+  <link rel="stylesheet" href="/shell.css" />
+  <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+
+{{if .Error}}
+<div class="error-banner">{{.Error}}</div>
+{{end}}
+
+{{if .User}}
+
+<nav class="navbar">
+  <div class="nav-tabs">
+    <button class="tab active" data-section="player">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-3px;margin-right:5px"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>Player
+    </button>
+    <button class="tab" data-section="library">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-3px;margin-right:5px"><path d="M20 6h-8l-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"/></svg>Library
+    </button>
+  </div>
+  <div class="profile-area">
+    <button class="profile-btn" id="profileBtn"
+            data-name="{{if .User.Name}}{{.User.Name}}{{else}}{{.User.AuthID}}{{end}}">
+      <span class="profile-initial">?</span>
+    </button>
+    <div class="profile-popover" id="profilePopover">
+      <div class="pi-info">
+        <span class="pi-label">{{.User.Method}}</span>
+        <span class="pi-name">{{if .User.Name}}{{.User.Name}}{{else}}{{.User.AuthID}}{{end}}</span>
+        {{if .User.Name}}<span class="pi-sub">{{.User.AuthID}}</span>{{end}}
+      </div>
+      <div class="pi-meta">
+        <span>member since {{.User.CreatedAt.Format "2006-01-02"}}</span>
+        <span>last login {{.User.LastLogin.Format "2006-01-02 15:04 UTC"}}</span>
+      </div>
+      <a class="pi-action pi-logout" href="/logout">log out</a>
+    </div>
+  </div>
+</nav>
+
+<main class="app-content">
+
+  <!-- ── Player section ── -->
+  <div id="player-section" class="section active">
+    <div id="bg-blur"></div>
+    <div id="player-inner">
+
+      <div id="seek-section" class="hidden">
+        <div id="seek-row">
+          <span class="seek-edge">0:00</span>
+          <input type="range" id="seek-bar" min="0" max="100" value="0" />
+          <span class="seek-edge" id="t-duration">0:00</span>
+        </div>
+        <input id="t-current" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" value="0:00" />
+      </div>
+
+      <div id="controls" class="hidden">
+        <button class="ctrl-btn" id="btn-prev" title="Previous">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+        </button>
+        <button class="ctrl-btn" id="btn-play">
+          <svg id="icon-play" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="icon-pause" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" class="hidden"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button class="ctrl-btn" id="btn-next" title="Next">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18 14.5 12 6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/></svg>
+        </button>
+      </div>
+
+      <div id="track-info" class="hidden">
+        <div id="track-title">—</div>
+        <div id="track-subtitle">—</div>
+      </div>
+
+      <div id="cover-art">
+        <span class="cover-placeholder">♪</span>
+        <p class="idle-msg">Pick a track from the Library tab</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Library section ── -->
+  <div id="library-section" class="section hidden">
+    <div id="tree-root"></div>
+  </div>
+
+</main>
+
+{{else}}
+
+<div class="login-screen">
+  <div id="login-bg"></div>
+  <div class="login-card-wrap">
+    <div class="login-card">
+      <div class="login-logo">BLUR</div>
+      <a class="login-domain" href="https://sh-development.ru" target="_blank" rel="noopener">sh-development.ru</a>
+      <a class="login-btn" href="/login">войти</a>
+    </div>
+  </div>
+  <div class="app-about">
+    <p>Музыкальный плеер с поддержкой вложенных папок и обложек. Войдите через Telegram, Solana или Google.</p>
+  </div>
+  <div class="login-divider">
+    <span class="login-divider-dot"></span>
+  </div>
+</div>
+<script>
+  document.getElementById('login-bg').style.backgroundImage = "url('/api/random-cover')";
+</script>
+
+{{end}}
+
+<audio id="audio" preload="auto"></audio>
+<script src="/shell.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

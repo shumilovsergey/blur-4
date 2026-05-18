@@ -1,0 +1,23 @@
+[Unit]
+Description=BLUR Music Player
+After=network.target
+
+[Service]
+User=root
+ExecStart=/opt/blur/blur
+WorkingDirectory=/opt/blur
+
+Environment=PORT=8891
+Environment=AUTH_URL=https://auth-center.sh-development.ru
+Environment=AUTH_INTERNAL=http://localhost:8886
+Environment=APP_URL=https://blur.sh-development.ru
+Environment=APP_TOKEN=
+Environment=SECRET_KEY=
+Environment=DB_PATH=/opt/blur/blur.db
+Environment=MEDIA_DIR=/opt/blur/media
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
