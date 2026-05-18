@@ -4,3 +4,4 @@ CLAUDE.md
 .db
 blur.db
 .DS_Store
+build/blur.db

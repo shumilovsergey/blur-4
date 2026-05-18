@@ -121,6 +121,7 @@ func main() {
 	mux.HandleFunc("POST /api/progress", requireAuthHandler(handleSaveProgress))
 	mux.Handle("GET /media/", requireAuthHandler(mediaHandler()))
 	mux.Handle("GET /favicon.svg", fileServer)
+	mux.Handle("GET /favicon.png", fileServer)
 	mux.Handle("GET /shell.css", fileServer)
 	mux.Handle("GET /shell.js", fileServer)
 	mux.Handle("GET /app.css", fileServer)
