@@ -5,16 +5,19 @@ After=network.target
 [Service]
 User=root
 
+
+#---------------PATH
 ExecStart=
 WorkingDirectory=
 Environment=DB_PATH=/opt/blur/blur.db
 Environment=MEDIA_DIR=/opt/blur/media
 
-
+#---------------URL
 Environment=AUTH_URL=https://auth-center.sh-development.ru
 Environment=AUTH_INTERNAL=https://blur.sh-development.ru
 Environment=APP_URL=https://blur.sh-development.ru
 
+#---------------SECURITY
 Environment=PORT=
 Environment=APP_TOKEN=
 Environment=SECRET_KEY=

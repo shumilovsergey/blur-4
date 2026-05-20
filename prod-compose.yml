@@ -6,3 +6,5 @@ services:
     volumes:
       - ./bin:/out
     entrypoint: ["cp", "/blur", "/out/blur"]
+
+# docker compose -f prod-compose.yml up --build
