@@ -4,17 +4,21 @@ After=network.target
 
 [Service]
 User=root
-ExecStart=/opt/blur/blur
-WorkingDirectory=/opt/blur
 
-Environment=PORT=8891
-Environment=AUTH_URL=https://auth-center.sh-development.ru
-Environment=AUTH_INTERNAL=http://localhost:8886
-Environment=APP_URL=https://blur.sh-development.ru
-Environment=APP_TOKEN=
-Environment=SECRET_KEY=
+ExecStart=
+WorkingDirectory=
 Environment=DB_PATH=/opt/blur/blur.db
 Environment=MEDIA_DIR=/opt/blur/media
+
+
+Environment=AUTH_URL=https://auth-center.sh-development.ru
+Environment=AUTH_INTERNAL=https://blur.sh-development.ru
+Environment=APP_URL=https://blur.sh-development.ru
+
+Environment=PORT=
+Environment=APP_TOKEN=
+Environment=SECRET_KEY=
+
 
 Restart=always
 RestartSec=5
