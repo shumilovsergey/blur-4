@@ -69,8 +69,6 @@ body {
 .tab:hover { color: var(--text); }
 .tab.active { background: var(--border); color: var(--accent); }
 
-.readme-btn { text-decoration: none; display: inline-flex; align-items: center; }
-
 .profile-area { position: relative; }
 
 .profile-btn {
@@ -120,15 +118,6 @@ body {
 .pi-name  { color: var(--accent); word-break: break-all; }
 .pi-sub   { font-size: 11px; color: var(--text-dim); word-break: break-all; }
 
-.pi-meta {
-  border-top: 1px solid var(--border);
-  padding-top: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-size: 11px;
-  color: var(--text-dim);
-}
 
 .pi-action {
   display: block;

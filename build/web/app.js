@@ -142,7 +142,7 @@ async function restoreProgress() {
 
   if (t.cover) {
     coverArt.innerHTML = `<img src="${t.cover}" alt="cover" />`;
-    bgBlur.style.backgroundImage = `url(${t.cover})`;
+    bgBlur.style.backgroundImage = `url("${t.cover}")`;
   } else {
     coverArt.innerHTML = '<span class="cover-placeholder">♪</span>';
     bgBlur.style.backgroundImage = '';
@@ -175,7 +175,7 @@ function playByIndex(i) {
 
   if (t.cover) {
     coverArt.innerHTML = `<img src="${t.cover}" alt="cover" />`;
-    bgBlur.style.backgroundImage = `url(${t.cover})`;
+    bgBlur.style.backgroundImage = `url("${t.cover}")`;
   } else {
     coverArt.innerHTML = '<span class="cover-placeholder">♪</span>';
     bgBlur.style.backgroundImage = '';
