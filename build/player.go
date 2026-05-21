@@ -115,45 +115,6 @@ func nextCoverPath() string {
 	return path
 }
 
-func nextBgPath() string {
-	f, err := os.Open(bgDir)
-	if err != nil {
-		return ""
-	}
-	defer f.Close()
-	infos, _ := f.Readdir(-1)
-	var imgs []string
-	for _, info := range infos {
-		if info.IsDir() || strings.HasPrefix(info.Name(), ".") {
-			continue
-		}
-		if imageExts[strings.ToLower(filepath.Ext(info.Name()))] {
-			imgs = append(imgs, filepath.Join(bgDir, info.Name()))
-		}
-	}
-	if len(imgs) == 0 {
-		return ""
-	}
-	return imgs[rand.Intn(len(imgs))]
-}
-
-var cachedBgPath string
-
-func handleRandomCover(w http.ResponseWriter, r *http.Request) {
-	if cachedBgPath == "" {
-		path := nextBgPath()
-		if path == "" {
-			path = nextCoverPath()
-		}
-		cachedBgPath = path
-	}
-	if cachedBgPath == "" {
-		http.NotFound(w, r)
-		return
-	}
-	http.ServeFile(w, r, cachedBgPath)
-}
-
 func handleTree(w http.ResponseWriter, r *http.Request) {
 	tree := buildTree(mediaDir, "media")
 	w.Header().Set("Content-Type", "application/json")

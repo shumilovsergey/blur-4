@@ -24,7 +24,6 @@ var (
 	appURL       string
 	appToken     string
 	mediaDir     string
-	bgDir        string
 	tmpl         *template.Template
 	httpClient   = &http.Client{}
 )
@@ -94,11 +93,6 @@ func main() {
 	if mediaDir == "" {
 		mediaDir = "./media"
 	}
-	bgDir = os.Getenv("BG_DIR")
-	if bgDir == "" {
-		bgDir = "./backgrounds"
-	}
-
 	secretKey := os.Getenv("SECRET_KEY")
 	if secretKey == "" {
 		secretKey = "dev-secret"
@@ -115,11 +109,11 @@ func main() {
 	mux.HandleFunc("GET /", handleIndex)
 	mux.HandleFunc("GET /login", handleLogin)
 	mux.HandleFunc("GET /logout", handleLogout)
-	mux.HandleFunc("GET /api/random-cover", handleRandomCover)
 	mux.HandleFunc("GET /api/tree", requireAuthHandler(handleTree))
 	mux.HandleFunc("GET /api/progress", requireAuthHandler(handleGetProgress))
 	mux.HandleFunc("POST /api/progress", requireAuthHandler(handleSaveProgress))
 	mux.Handle("GET /media/", requireAuthHandler(mediaHandler()))
+	mux.Handle("GET /background.jpg", fileServer)
 	mux.Handle("GET /favicon.svg", fileServer)
 	mux.Handle("GET /favicon.png", fileServer)
 	mux.Handle("GET /shell.css", fileServer)

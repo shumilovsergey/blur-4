@@ -36,7 +36,7 @@ const treeRoot    = document.getElementById('tree-root');
 // ── Player (only runs when logged in) ─────────────────────────────────────
 if (treeRoot) {
 
-bgBlur.style.backgroundImage = "url('/api/random-cover')";
+bgBlur.style.backgroundImage = "url('/background.jpg')";
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 function fmt(s) {
