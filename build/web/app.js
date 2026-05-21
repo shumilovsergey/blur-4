@@ -334,7 +334,12 @@ btnAutoplay.addEventListener('click', () => {
 // ── Load tree ──────────────────────────────────────────────────────────────
 fetch('/api/tree')
   .then(r => r.json())
-  .then(tree => { buildTree(tree, treeRoot, null); restoreProgress(); })
+  .then(tree => {
+    buildTree(tree, treeRoot, null);
+    restoreProgress();
+    const urls = [...new Set(allTracks.map(t => t.cover).filter(Boolean))];
+    urls.forEach(url => { new Image().src = url; });
+  })
   .catch(() => {
     treeRoot.innerHTML = '<div style="padding:20px;color:var(--text-dim)">Could not load library.</div>';
   });

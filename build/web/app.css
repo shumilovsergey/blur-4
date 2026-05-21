@@ -42,11 +42,15 @@ body { background: #000; position: relative; }
 .pi-label { color: rgba(255, 255, 255, 0.45); }
 .pi-name  { color: rgba(255, 255, 255, 0.92); }
 .pi-sub   { color: rgba(255, 255, 255, 0.45); }
-.pi-meta  { color: rgba(255, 255, 255, 0.45); }
+
+.pi-action {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.55);
+}
 
 .pi-logout {
   color: #e87a7a;
-  border-color: #5c2e2e;
+  border-color: #7a3535;
 }
 
 .pi-logout:hover {
