@@ -129,14 +129,14 @@ async function restoreProgress() {
   currentIndex = idx;
   const t = allTracks[idx];
 
-  audio.src = t.path;
+  audio.src = t.src;
   audio.addEventListener('loadedmetadata', () => {
     if (isFinite(audio.duration) && audio.duration - prog.position > 5)
       audio.currentTime = prog.position;
   }, { once: true });
 
   const name = t.name.replace(/\.[^.]+$/, '');
-  const sub  = t.path.split('/').slice(1, -1).join(' / ') || 'media';
+  const sub  = t.path.split('/').filter(p => p && p !== 'media').slice(0, -1).join(' / ');
   trackTitle.textContent = name;
   trackSub.textContent   = sub;
 
@@ -164,11 +164,11 @@ function playByIndex(i) {
   saveProgressServer(t.path, 0);
   saveProgressLocal(t.path, 0);
 
-  audio.src = t.path;
+  audio.src = t.src;
   audio.play();
 
   const name = t.name.replace(/\.[^.]+$/, '');
-  const sub  = t.path.split('/').slice(1, -1).join(' / ') || 'media';
+  const sub  = t.path.split('/').filter(p => p && p !== 'media').slice(0, -1).join(' / ');
 
   trackTitle.textContent = name;
   trackSub.textContent   = sub;
@@ -193,7 +193,7 @@ function playByIndex(i) {
 // ── Library tree ───────────────────────────────────────────────────────────
 function buildTree(entries, container, inheritedCover) {
   const coverEntry = entries.find(e => e.type === 'cover');
-  const localCover = coverEntry ? '/media/' + coverEntry.path.replace(/^media\//, '') : inheritedCover;
+  const localCover = coverEntry ? (coverEntry.url || '/media/' + coverEntry.path.replace(/^media\//, '')) : inheritedCover;
 
   for (const e of entries) {
     if (e.type === 'cover') continue;
@@ -217,8 +217,8 @@ function buildTree(entries, container, inheritedCover) {
 
     } else if (e.type === 'audio') {
       const idx = allTracks.length;
-      const filePath = '/media/' + e.path.replace(/^media\//, '');
-      allTracks.push({ ...e, path: filePath, cover: localCover });
+      const src = e.url || '/media/' + e.path.replace(/^media\//, '');
+      allTracks.push({ ...e, src, cover: localCover });
 
       const row = document.createElement('div');
       row.className = 'tree-row audio-row';
@@ -261,6 +261,21 @@ audio.addEventListener('pause', () => {
 audio.addEventListener('ended', () => {
   clearInterval(progressTimer); progressTimer = null;
   if (autoplay) playByIndex(currentIndex + 1);
+});
+
+audio.addEventListener('error', () => {
+  if (currentIndex < 0) return;
+  clearInterval(progressTimer); progressTimer = null;
+  iconPlay.classList.remove('hidden');
+  iconPause.classList.add('hidden');
+  coverArt.innerHTML = `
+    <svg class="offline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/>
+      <line x1="2" y1="2" x2="22" y2="22"/>
+    </svg>
+    <span class="offline-msg">Яндекс Хранилище недоступно,<br>попробуйте позже</span>
+  `;
+  bgBlur.style.backgroundImage = '';
 });
 
 seekBar.addEventListener('input', () => {

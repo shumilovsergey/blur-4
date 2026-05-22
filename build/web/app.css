@@ -158,6 +158,21 @@ body { background: #000; position: relative; }
 
 .cover-placeholder { font-size: 48px; opacity: 0.25; }
 
+.offline-icon {
+  width: 48px;
+  height: 48px;
+  color: rgba(255, 255, 255, 0.22);
+  flex-shrink: 0;
+}
+
+.offline-msg {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+  text-align: center;
+  line-height: 1.6;
+  font-family: inherit;
+}
+
 .idle-msg {
   color: rgba(255, 255, 255, 0.88);
   font-size: 13px;

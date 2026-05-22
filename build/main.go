@@ -82,6 +82,15 @@ func main() {
 		os.Exit(0)
 	}
 
+	if len(os.Args) == 2 && os.Args[1] == "--update" {
+		godotenv.Load() //nolint:errcheck
+		initDB()
+		if err := updateTreeFromS3(); err != nil {
+			log.Fatalf("--update: %v", err)
+		}
+		os.Exit(0)
+	}
+
 	log.SetFlags(log.Ldate | log.Ltime | log.LUTC)
 	godotenv.Load() //nolint:errcheck
 

@@ -6,6 +6,7 @@ services:
     ports:
       - "${PORT:-8891}:${PORT:-8891}"
     env_file: .env
+    command: sh -c 'go build -o tmp/main . && ./tmp/main --update; air'
     volumes:
       - ./build:/app
       - go-cache:/root/go/pkg/mod

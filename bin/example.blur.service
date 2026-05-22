@@ -5,12 +5,23 @@ After=network.target
 [Service]
 User=root
 
+#---------------commands
+# --update
+# --version
+
+
 
 #---------------PATH
 ExecStart=
 WorkingDirectory=
 Environment=DB_PATH=/opt/blur/blur.db
-Environment=MEDIA_DIR=/opt/blur/media
+
+#Environment=MEDIA_DIR=/opt/blur/media
+
+#---------------S3 ( --update to index Yandex Object Storage)
+Environment=S3_BUCKET=
+Environment=S3_KEY=
+Environment=S3_SECRET=
 
 #---------------URL
 Environment=AUTH_URL=https://auth-center.sh-development.ru

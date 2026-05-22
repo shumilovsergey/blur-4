@@ -10,5 +10,13 @@ func appMigrate() error {
 		position   REAL    NOT NULL DEFAULT 0,
 		updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 	)`)
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS media_tree (
+		id         INTEGER PRIMARY KEY CHECK (id = 1),
+		tree_json  TEXT    NOT NULL,
+		updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+	)`)
 	return err
 }

@@ -24,6 +24,7 @@ type treeEntry struct {
 	Type     string       `json:"type"`
 	Name     string       `json:"name,omitempty"`
 	Path     string       `json:"path"`
+	URL      string       `json:"url,omitempty"`
 	Children []*treeEntry `json:"children,omitempty"`
 }
 
@@ -116,8 +117,14 @@ func nextCoverPath() string {
 }
 
 func handleTree(w http.ResponseWriter, r *http.Request) {
-	tree := buildTree(mediaDir, "media")
+	var treeJSON string
+	err := db.QueryRow(`SELECT tree_json FROM media_tree WHERE id = 1`).Scan(&treeJSON)
 	w.Header().Set("Content-Type", "application/json")
+	if err == nil {
+		w.Write([]byte(treeJSON)) //nolint:errcheck
+		return
+	}
+	tree := buildTree(mediaDir, "media")
 	json.NewEncoder(w).Encode(tree) //nolint:errcheck
 }
 
