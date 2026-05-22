@@ -6,7 +6,8 @@ After=network.target
 User=root
 
 #---------------commands
-# --update
+
+# source <(grep '^Environment=' /etc/systemd/system/blur.service | sed 's/^Environment=//') && ./blur --update
 # --version
 
 
@@ -25,7 +26,7 @@ Environment=S3_SECRET=
 
 #---------------URL
 Environment=AUTH_URL=https://auth-center.sh-development.ru
-Environment=AUTH_INTERNAL=https://blur.sh-development.ru
+Environment=AUTH_INTERNAL=https://auth-center.sh-development.ru
 Environment=APP_URL=https://blur.sh-development.ru
 
 #---------------SECURITY
