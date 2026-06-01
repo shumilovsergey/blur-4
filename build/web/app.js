@@ -124,8 +124,8 @@ document.addEventListener('visibilitychange', async () => {
   const idx = allTracks.findIndex(t => t.path === prog.path);
   if (idx < 0) return;
 
-  if (idx === currentIndex && isFinite(audio.duration)) {
-    if (Math.abs(audio.currentTime - prog.position) > 5)
+  if (idx === currentIndex) {
+    if (isFinite(audio.duration) && Math.abs(audio.currentTime - prog.position) > 5)
       audio.currentTime = prog.position;
     return;
   }
@@ -137,7 +137,7 @@ async function restoreProgress() {
   let prog = null;
   try {
     const res = await fetch('/api/progress');
-    if (res.ok) prog = await res.json();
+    if (res.status === 200) prog = await res.json();
   } catch {
     const raw = localStorage.getItem(PROG_KEY);
     if (raw) { const s = JSON.parse(raw); prog = { path: s.path, position: s.pos }; }
