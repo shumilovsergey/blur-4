@@ -111,6 +111,10 @@ func main() {
 	initDB()
 	initTemplate()
 
+	if err := updateTreeFromS3(); err != nil {
+		log.Printf("startup tree update failed: %v", err)
+	}
+
 	webFS, _ := fs.Sub(webFiles, "web")
 	fileServer := http.FileServer(http.FS(webFS))
 
