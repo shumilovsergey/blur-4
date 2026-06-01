@@ -112,6 +112,27 @@ window.addEventListener('beforeunload', () => {
   ));
 });
 
+document.addEventListener('visibilitychange', async () => {
+  if (document.visibilityState !== 'visible' || !audio.paused) return;
+  let prog = null;
+  try {
+    const res = await fetch('/api/progress');
+    if (res.ok) prog = await res.json();
+  } catch { return; }
+  if (!prog?.path) return;
+
+  const idx = allTracks.findIndex(t => t.path === prog.path);
+  if (idx < 0) return;
+
+  if (idx === currentIndex && isFinite(audio.duration)) {
+    if (Math.abs(audio.currentTime - prog.position) > 5)
+      audio.currentTime = prog.position;
+    return;
+  }
+
+  restoreProgress();
+});
+
 async function restoreProgress() {
   let prog = null;
   try {
