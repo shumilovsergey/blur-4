@@ -151,6 +151,7 @@ async function restoreProgress() {
   const t = allTracks[idx];
 
   audio.src = t.src;
+  audio.load();
   audio.addEventListener('loadedmetadata', () => {
     if (isFinite(audio.duration) && audio.duration - prog.position > 5)
       audio.currentTime = prog.position;
@@ -160,6 +161,7 @@ async function restoreProgress() {
   const sub  = t.path.split('/').filter(p => p && p !== 'media').slice(0, -1).join(' / ');
   trackTitle.textContent = name;
   trackSub.textContent   = sub;
+  tCurrent.value = fmt(prog.position);
 
   if (t.cover) {
     coverArt.innerHTML = `<img src="${t.cover}" alt="cover" />`;
