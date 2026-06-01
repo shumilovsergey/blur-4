@@ -105,7 +105,7 @@ window.addEventListener('online', () => {
 });
 
 window.addEventListener('beforeunload', () => {
-  if (currentIndex < 0) return;
+  if (currentIndex < 0 || audio.paused) return;
   navigator.sendBeacon('/api/progress', new Blob(
     [JSON.stringify({ path: allTracks[currentIndex].path, position: audio.currentTime })],
     { type: 'application/json' }
